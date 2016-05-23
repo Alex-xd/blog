@@ -1,3 +1,4 @@
+//用户模型
 var mongodb = require('./db');
 
 function User(user) {

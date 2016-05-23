@@ -24,21 +24,27 @@ app.use(flash());
 //app.use(favicon(__dirname + '/public/favicon.ico'));
 app.use(logger('dev'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({
+	extended: true
+}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 //会话信息存储在数据库中
 app.use(session({
-  secret: settings.cookieSecret, //秘钥，防止恶意篡改cookie
-  key: settings.db,//cookie name
-  cookie: {maxAge: 1000 * 60 * 60 * 24 * 30},//cookie留存时间：30天
-  store: new MongoStore({
-    url: 'mongodb://localhost/blog'
-  })
+	resave: false,
+	saveUninitialized: true,
+	secret: settings.cookieSecret, //秘钥，防止恶意篡改cookie
+	key: settings.db, //cookie name
+	cookie: {
+		maxAge: 1000 * 60 * 60 * 24 * 30
+	}, //cookie留存时间：30天
+	store: new MongoStore({
+		url: 'mongodb://localhost/blog'
+	})
 }));
 
-routes(app);//路由调用总接口
+routes(app); //路由调用总接口
 
 app.listen(app.get('port'), function() {
-  console.log('Express server listening on port ' + app.get('port'));
+	console.log('Express server listening on port ' + app.get('port'));
 });
