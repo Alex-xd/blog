@@ -1,11 +1,15 @@
+/*
+ *		Created by Boyuan on 2016/5/14
+ */
+
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var session = require('express-session');
-var MongoStore = require('connect-mongo')(session);
+var session = require('express-session'); //会话
+var MongoStore = require('connect-mongo')(session); //连接mongodb中间件
 
 var routes = require('./routes/index');
 var settings = require('./settings');
@@ -22,16 +26,17 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+//会话信息存储在数据库中
 app.use(session({
-  secret: settings.cookieSecret,
+  secret: settings.cookieSecret, //秘钥，防止恶意篡改cookie
   key: settings.db,//cookie name
-  cookie: {maxAge: 1000 * 60 * 60 * 24 * 30},//30 days
+  cookie: {maxAge: 1000 * 60 * 60 * 24 * 30},//cookie留存时间：30天
   store: new MongoStore({
     url: 'mongodb://localhost/blog'
   })
 }));
 
-routes(app);
+routes(app);//路由调用总接口
 
 app.listen(app.get('port'), function() {
   console.log('Express server listening on port ' + app.get('port'));
