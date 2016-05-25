@@ -9,19 +9,21 @@
 
 <header>
 <h1><%= title %></h1>
+<a class="my_github" href="https://github.com/zhangboyuan-XD/blog"><img src="http://o6x2vif88.bkt.clouddn.com/github-mark.gif" alt="my github" title="my github"></a>
 </header>
 
 <nav>
-<span><a title="主页" href="/">home</a></span>
-<span><a title="存档" href="/archive">archive</a></span>
+<span><a title="主页" href="/">HOME</a></span>
+<span><a title="存档" href="/archive">存档</a></span>
 <% if (user) { %>
-  <span><a title="上传" href="/upload">upload</a></span>
-  <span><a title="发表" href="/post">post</a></span>
-  <span><a title="登出" href="/logout">logout</a></span>
+  <span><a title="上传" href="/upload">上传</a></span>
+  <span><a title="写文章" href="/post">写文章</a></span>
+  <span><a title="登出" href="/logout">登出</a></span>
 <% } else { %>
-  <span><a title="登录" href="/login">login</a></span>
-  <span><a title="注册" href="/reg">register</a></span>
+  <span><a title="登录" href="/login">登录</a></span>
+  <span><a title="注册" href="/reg">注册</a></span>
 <% } %>
+<span><form action="/search" method="GET"><input type="text" name="keyword" placeholder="SEARCH" class="search" /></form></span>
 </nav>
 
 <article>
