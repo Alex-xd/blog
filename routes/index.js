@@ -1,6 +1,19 @@
 var crypto = require('crypto'),
   User = require('../models/user.js'),
   Post = require('../models/post.js');
+//文件上传功能
+var multer = require('multer');
+var storage = multer.diskStorage({
+  destination: function(req, file, cb) { //文件上传目录
+    cb(null, './public/images')
+  },
+  filename: function(req, file, cb) { //用来修改上传后的文件名（暂保持原有）
+    cb(null, file.originalname)
+  }
+});
+var upload = multer({
+  storage: storage
+});
 
 module.exports = function(app) {
   //主页响应
@@ -140,11 +153,26 @@ module.exports = function(app) {
     res.redirect('/'); //登出成功后跳转到主页
   });
 
+  //上传文件功能
+  app.get('/upload', checkLogin); //只有登录的人才可以传
+  app.get('/upload', function(req, res) {
+    res.render('upload', {
+      title: '文件上传',
+      user: req.session.user,
+      success: req.flash('success').toString(),
+      error: req.flash('error').toString()
+    });
+  });
+  app.post('/upload', checkLogin);
+  app.post('/upload', upload.array('field1', 5), function(req, res) {
+    req.flash('success', '文件上传成功!');
+    res.redirect('/upload');
+  });
 
   //检测是否登陆
-function checkLogin(req, res, next) {
+  function checkLogin(req, res, next) {
     if (!req.session.user) {
-      req.flash('error', '未登录!'); 
+      req.flash('error', '未登录!');
       return res.redirect('/login');
     }
     next();
@@ -152,8 +180,8 @@ function checkLogin(req, res, next) {
 
   function checkNotLogin(req, res, next) {
     if (req.session.user) {
-      req.flash('error', '已登录!'); 
-      return res.redirect('back');//返回之前的页面
+      req.flash('error', '已登录!');
+      return res.redirect('back'); //返回之前的页面
     }
     next();
   }
