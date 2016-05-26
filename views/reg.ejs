@@ -1,9 +1,11 @@
 <%- include header %>
-<form method="post">
-  用户名：  <input type="text" name="name"/><br />
-  密码：    <input type="password" name="password"/><br />
-  确认密码：<input type="password" name="password-repeat"/><br />
-  邮箱：    <input type="email" name="email"/><br />
-           <input type="submit" value="注册"/>
+<form method="post" class="reg-form">
+  <ul>
+  	<li><span>用户名:</span><input type="text" name="name"/></li>
+  	<li><span>密码:</span><input type="password" name="password"/></li>
+  	<li><span>确认密码:</span><input type="password" name="password-repeat"/></li>
+  	<li><span>邮箱:</span><input type="email" name="email"/></li>
+  	<li><input type="submit" value="注册" class="register"/></li>
+  </ul>
 </form>
 <%- include footer %>
