@@ -301,6 +301,11 @@ module.exports = function(app) {
     });
   });
 
+  //404页
+  app.use(function(req, res) {
+    res.render("404");
+  });
+
   //检测是否登陆
   function checkLogin(req, res, next) {
     if (!req.session.user) {
